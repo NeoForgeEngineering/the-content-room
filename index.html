@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Content Room — Mobile Wireframes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --brand: #E94560;
+    --brand-dark: #c9364e;
+    --navy: #1A1A2E;
+    --navy-light: #16213E;
+    --grey-50: #fafafa;
+    --grey-100: #f5f5f5;
+    --grey-200: #e5e5e5;
+    --grey-300: #d4d4d4;
+    --grey-400: #a3a3a3;
+    --grey-500: #737373;
+    --grey-600: #525252;
+    --grey-700: #404040;
+    --grey-800: #262626;
+    --grey-900: #171717;
+    --white: #ffffff;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-lg: 16px;
+    --success: #16a34a;
+    --warning: #d97706;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--grey-100);
+    color: var(--grey-800);
+    line-height: 1.5;
+  }
+
+  /* === PAGE HEADER === */
+  .page-header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 40px 20px 30px;
+    text-align: center;
+  }
+  .page-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+  .page-header p { font-size: 14px; color: var(--grey-400); }
+  .page-header .badge {
+    display: inline-block;
+    background: var(--brand);
+    color: white;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  /* === FEATURE COVERAGE === */
+  .feature-bar {
+    background: var(--white);
+    border-bottom: 1px solid var(--grey-200);
+    padding: 16px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .feature-tag {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    background: var(--grey-100);
+    color: var(--grey-600);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .feature-tag.covered { background: #dcfce7; color: #166534; }
+
+  /* === NAV === */
+  .screen-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--white);
+    border-bottom: 1px solid var(--grey-200);
+    display: flex;
+    overflow-x: auto;
+    padding: 0 12px;
+    gap: 2px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .screen-nav::-webkit-scrollbar { display: none; }
+  .screen-nav button {
+    padding: 12px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--grey-500);
+    border: none;
+    background: none;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .screen-nav button:hover { color: var(--grey-700); }
+  .screen-nav button.active { color: var(--brand); border-bottom-color: var(--brand); font-weight: 600; }
+
+  /* === PHONE FRAME === */
+  .phone-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px 60px;
+  }
+  .phone {
+    width: 375px;
+    height: 812px;
+    background: var(--white);
+    border-radius: 40px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+    position: relative;
+  }
+
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 24px 8px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .status-icons { display: flex; gap: 6px; }
+  .status-icons svg { width: 16px; height: 16px; }
+
+  .screen { display: none; height: 100%; overflow-y: auto; }
+  .screen.active { display: flex; flex-direction: column; }
+
+  .screen-label {
+    padding: 4px 16px 12px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--grey-800);
+  }
+
+  .content { flex: 1; overflow-y: auto; padding-bottom: 70px; }
+
+  /* === APP HEADER === */
+  .app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 16px 8px;
+  }
+  .logo { font-size: 18px; font-weight: 700; color: var(--navy); }
+  .logo span { color: var(--brand); }
+  .app-header-icons { display: flex; gap: 8px; }
+  .icon-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--grey-50); display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .icon-btn svg { width: 18px; height: 18px; color: var(--grey-700); }
+  .notif-dot {
+    position: absolute; top: 6px; right: 6px;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--brand); border: 2px solid var(--white);
+  }
+
+  /* === SEARCH BAR === */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 16px 12px;
+    padding: 10px 14px;
+    background: var(--grey-50);
+    border-radius: var(--radius);
+    border: 1px solid var(--grey-200);
+  }
+  .search-bar svg { width: 18px; height: 18px; color: var(--grey-400); flex-shrink: 0; }
+  .search-bar span { font-size: 14px; color: var(--grey-400); flex: 1; }
+  .filter-btn { cursor: pointer; }
+  .filter-btn svg { width: 18px; height: 18px; color: var(--grey-600); }
+
+  /* === HERO === */
+  .hero {
+    margin: 0 16px 16px;
+    padding: 24px 20px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    border-radius: var(--radius-lg);
+    color: var(--white);
+  }
+  .hero h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+  .hero p { font-size: 12px; color: var(--grey-300); margin-bottom: 14px; }
+  .cta {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--brand);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* === CATEGORIES === */
+  .categories { display: flex; gap: 8px; padding: 0 16px 16px; overflow-x: auto; }
+  .cat-pill {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: 20px;
+    background: var(--grey-50); border: 1px solid var(--grey-200);
+    font-size: 12px; font-weight: 500; white-space: nowrap; color: var(--grey-600);
+  }
+  .cat-pill svg { width: 14px; height: 14px; }
+  .cat-pill.active { background: var(--brand); border-color: var(--brand); color: white; }
+  .cat-pill.active svg { stroke: white; }
+
+  /* === SECTION TITLE === */
+  .section-title {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 16px 10px;
+  }
+  .section-title h3 { font-size: 16px; font-weight: 700; color: var(--grey-800); }
+  .section-title a { font-size: 13px; color: var(--brand); text-decoration: none; font-weight: 500; }
+
+  /* === PROPERTY CARDS === */
+  .card-scroll { display: flex; gap: 12px; padding: 0 16px 20px; overflow-x: auto; }
+  .property-card {
+    min-width: 220px; border-radius: var(--radius); background: var(--white);
+    border: 1px solid var(--grey-100); overflow: hidden; flex-shrink: 0;
+  }
+  .card-img { height: 130px; position: relative; }
+  .img-placeholder { background: linear-gradient(135deg, var(--grey-200) 0%, var(--grey-100) 100%); }
+  .badge-tag {
+    position: absolute; top: 10px; left: 10px;
+    background: var(--brand); color: white;
+    font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px;
+  }
+  .heart {
+    position: absolute; top: 10px; right: 10px;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: rgba(255,255,255,0.9); display: flex; align-items: center; justify-content: center;
+  }
+  .heart svg { width: 16px; height: 16px; color: var(--grey-600); }
+  .card-body { padding: 10px 12px; }
+  .card-body h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .location { font-size: 12px; color: var(--grey-500); display: flex; align-items: center; gap: 3px; margin-bottom: 4px; }
+  .location svg { width: 12px; height: 12px; }
+  .tags { display: flex; gap: 4px; margin-bottom: 6px; }
+  .tag { font-size: 10px; padding: 2px 6px; border-radius: 4px; background: var(--grey-50); color: var(--grey-500); }
+  .price { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .price span { font-size: 12px; font-weight: 400; color: var(--grey-500); }
+
+  /* === VERTICAL CARDS === */
+  .v-card {
+    display: flex; gap: 12px; padding: 12px 16px;
+    border-bottom: 1px solid var(--grey-100); align-items: center;
+  }
+  .v-card-img { width: 90px; height: 70px; border-radius: var(--radius-sm); flex-shrink: 0; }
+  .v-card-body { flex: 1; min-width: 0; }
+  .v-card-body h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .meta { font-size: 12px; color: var(--grey-500); margin-bottom: 3px; }
+  .rating { font-size: 12px; color: var(--grey-500); margin-bottom: 3px; }
+  .star { color: #f59e0b; }
+
+  /* === FILTER BAR === */
+  .filter-bar {
+    display: flex; gap: 6px; padding: 8px 16px;
+    overflow-x: auto; border-bottom: 1px solid var(--grey-100);
+  }
+  .chip {
+    font-size: 12px; padding: 6px 12px; border-radius: 20px;
+    background: var(--grey-50); border: 1px solid var(--grey-200);
+    color: var(--grey-600); white-space: nowrap; cursor: pointer;
+  }
+  .chip.active { background: var(--brand); border-color: var(--brand); color: white; }
+
+  /* === LISTING DETAIL === */
+  .detail-hero { height: 240px; position: relative; }
+  .back-btn {
+    position: absolute; top: 52px; left: 14px; z-index: 5;
+    width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.9);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .img-count {
+    position: absolute; bottom: 12px; right: 14px;
+    background: rgba(0,0,0,0.6); color: white;
+    padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 500;
+  }
+  .detail-info { padding: 16px; }
+  .detail-info h2 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .host { font-size: 13px; color: var(--grey-500); margin-bottom: 8px; }
+  .detail-rating { font-size: 13px; color: var(--grey-600); margin-bottom: 12px; }
+  .detail-rating .stars { color: #f59e0b; margin-right: 4px; }
+  .amenity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+  .amenity {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--grey-600); padding: 8px; background: var(--grey-50); border-radius: 8px;
+  }
+  .amenity svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* === BOOKING BAR === */
+  .book-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 16px; background: var(--white);
+    border-top: 1px solid var(--grey-200);
+  }
+  .price-display { font-size: 18px; font-weight: 700; color: var(--navy); }
+  .price-display span { font-size: 13px; font-weight: 400; color: var(--grey-500); }
+  .book-btn {
+    padding: 12px 28px; background: var(--brand); color: white;
+    border: none; border-radius: var(--radius-sm);
+    font-size: 15px; font-weight: 600; font-family: inherit;
+  }
+
+  /* === BOOKING FORM === */
+  .date-selector { padding: 16px; }
+  .date-selector label, .time-slots label {
+    display: block; font-size: 11px; font-weight: 600;
+    color: var(--grey-500); text-transform: uppercase;
+    letter-spacing: 0.5px; margin-bottom: 8px;
+  }
+  .date-row { display: flex; gap: 6px; }
+  .date-box {
+    flex: 1; text-align: center; padding: 8px 4px;
+    border: 1px solid var(--grey-200); border-radius: var(--radius-sm);
+    font-size: 11px; color: var(--grey-600); cursor: pointer;
+  }
+  .date-box strong { display: block; font-size: 16px; color: var(--grey-800); }
+  .date-box.active { border-color: var(--brand); background: rgba(233,69,96,0.05); color: var(--brand); }
+  .date-box.active strong { color: var(--brand); }
+  .time-slots { padding: 0 16px 12px; }
+  .slot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .slot {
+    text-align: center; padding: 10px; border: 1px solid var(--grey-200);
+    border-radius: var(--radius-sm); font-size: 13px; font-weight: 500;
+    color: var(--grey-600); cursor: pointer;
+  }
+  .slot.active { border-color: var(--brand); background: rgba(233,69,96,0.05); color: var(--brand); font-weight: 600; }
+  .slot.disabled { color: var(--grey-300); border-color: var(--grey-100); cursor: not-allowed; }
+
+  .summary-box {
+    margin: 8px 16px 16px; padding: 16px;
+    background: var(--grey-50); border-radius: var(--radius);
+  }
+  .summary-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--grey-600); padding: 4px 0; }
+  .summary-row.total { border-top: 1px solid var(--grey-200); margin-top: 8px; padding-top: 10px; font-weight: 700; color: var(--grey-800); font-size: 15px; }
+
+  .full-btn {
+    display: block; width: calc(100% - 32px); margin: 0 16px 16px;
+    padding: 14px; background: var(--brand); color: white; border: none; border-radius: var(--radius-sm);
+    font-size: 15px; font-weight: 600; font-family: inherit; text-align: center; cursor: pointer;
+  }
+
+  /* === MESSAGES === */
+  .msg-item {
+    display: flex; gap: 10px; padding: 14px 16px; align-items: flex-start;
+    border-bottom: 1px solid var(--grey-100);
+  }
+  .msg-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--grey-200); display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; color: var(--grey-600); flex-shrink: 0;
+  }
+  .msg-body { flex: 1; min-width: 0; }
+  .msg-body h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .msg-body p { font-size: 12px; color: var(--grey-500); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .msg-time { font-size: 11px; color: var(--grey-400); white-space: nowrap; }
+  .msg-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brand); }
+
+  /* === PROFILE === */
+  .profile-header { text-align: center; padding: 20px 16px; }
+  .avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--grey-100); margin: 0 auto 10px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .profile-header h3 { font-size: 18px; font-weight: 700; }
+  .profile-header p { font-size: 13px; color: var(--grey-500); }
+  .menu-list { padding: 0 16px; }
+  .menu-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 0; border-bottom: 1px solid var(--grey-100);
+    font-size: 14px; font-weight: 500; color: var(--grey-700);
+  }
+  .menu-item svg { width: 20px; height: 20px; flex-shrink: 0; }
+  .badge-count {
+    margin-left: auto; background: var(--brand); color: white;
+    font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px;
+  }
+  .arrow { margin-left: auto; color: var(--grey-400); }
+
+  /* === MAP SCREEN === */
+  .map-container {
+    height: 320px;
+    background: linear-gradient(145deg, #e8edf5 0%, #d1dae8 50%, #e2e8f0 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .map-container::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,0,0,0.03) 39px, rgba(0,0,0,0.03) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(0,0,0,0.03) 39px, rgba(0,0,0,0.03) 40px);
+  }
+  .map-pin {
+    position: absolute;
+    width: 32px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  }
+  .map-pin svg { width: 32px; height: 40px; }
+  .map-pin .pin-label {
+    position: absolute; top: 7px;
+    font-size: 10px; font-weight: 700; color: white;
+  }
+  .map-pin.active svg { fill: var(--brand); }
+  .map-pin:not(.active) svg { fill: var(--navy); }
+  .map-recenter {
+    position: absolute; bottom: 12px; right: 12px;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--white); box-shadow: var(--shadow-md);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .map-recenter svg { width: 18px; height: 18px; color: var(--grey-700); }
+
+  /* === REVIEWS === */
+  .review-item {
+    padding: 14px 16px; border-bottom: 1px solid var(--grey-100);
+  }
+  .review-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
+  }
+  .review-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--grey-200); display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: var(--grey-600);
+  }
+  .review-name { font-size: 13px; font-weight: 600; }
+  .review-date { font-size: 11px; color: var(--grey-400); }
+  .review-stars { font-size: 12px; color: #f59e0b; margin-bottom: 4px; }
+  .review-text { font-size: 12px; color: var(--grey-600); line-height: 1.5; }
+
+  /* === HOST DASHBOARD === */
+  .dash-stat-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    padding: 12px 16px;
+  }
+  .dash-stat {
+    padding: 14px; background: var(--grey-50); border-radius: var(--radius);
+    text-align: center;
+  }
+  .dash-stat .value { font-size: 22px; font-weight: 700; color: var(--navy); }
+  .dash-stat .label { font-size: 11px; color: var(--grey-500); margin-top: 2px; }
+  .dash-booking {
+    display: flex; gap: 10px; padding: 12px 16px; align-items: center;
+    border-bottom: 1px solid var(--grey-100);
+  }
+  .dash-booking-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--grey-200); display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; color: var(--grey-600); flex-shrink: 0;
+  }
+  .dash-booking-info { flex: 1; }
+  .dash-booking-info h4 { font-size: 13px; font-weight: 600; }
+  .dash-booking-info .meta { font-size: 11px; color: var(--grey-500); }
+  .dash-actions { display: flex; gap: 6px; }
+  .dash-actions button {
+    padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600;
+    border: none; cursor: pointer; font-family: inherit;
+  }
+  .btn-approve { background: #dcfce7; color: #166534; }
+  .btn-decline { background: var(--grey-100); color: var(--grey-600); }
+
+  /* === CREATOR PROFILE === */
+  .creator-cover {
+    height: 120px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    position: relative;
+  }
+  .creator-avatar-wrap {
+    position: absolute; bottom: -30px; left: 16px;
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--grey-200); border: 3px solid var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 700; color: var(--grey-500);
+  }
+  .creator-info { padding: 38px 16px 12px; }
+  .creator-info h3 { font-size: 18px; font-weight: 700; }
+  .creator-info .role { font-size: 13px; color: var(--grey-500); margin-bottom: 6px; }
+  .creator-info .bio { font-size: 12px; color: var(--grey-600); line-height: 1.5; margin-bottom: 12px; }
+  .creator-stats {
+    display: flex; gap: 20px; padding: 0 16px 16px;
+  }
+  .creator-stat { text-align: center; }
+  .creator-stat .num { font-size: 16px; font-weight: 700; color: var(--navy); }
+  .creator-stat .lbl { font-size: 10px; color: var(--grey-500); }
+  .portfolio-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px;
+    padding: 0 16px 16px;
+  }
+  .portfolio-item {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, var(--grey-200), var(--grey-100));
+    border-radius: 4px;
+  }
+
+  /* === BOTTOM NAV === */
+  .bottom-nav {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    display: flex; background: var(--white); border-top: 1px solid var(--grey-200);
+    padding: 6px 0 20px; z-index: 10;
+  }
+  .nav-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    text-decoration: none; font-size: 10px; font-weight: 500; color: var(--grey-400);
+    padding-top: 6px; position: relative;
+  }
+  .nav-item svg { width: 22px; height: 22px; }
+  .nav-item.active { color: var(--brand); }
+
+  .divider { height: 1px; background: var(--grey-100); margin: 0 16px; }
+
+  /* === STATUS BADGE === */
+  .status-pill {
+    font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 10px;
+  }
+  .status-pill.pending { background: #fef3c7; color: #92400e; }
+  .status-pill.confirmed { background: #dcfce7; color: #166534; }
+
+  /* === CALENDAR MINI === */
+  .mini-cal { padding: 12px 16px; }
+  .mini-cal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 10px;
+  }
+  .mini-cal-header h4 { font-size: 14px; font-weight: 600; }
+  .mini-cal-header span { font-size: 12px; color: var(--brand); font-weight: 500; }
+  .cal-grid {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center;
+  }
+  .cal-day { font-size: 10px; color: var(--grey-400); padding: 4px 0; font-weight: 600; }
+  .cal-date {
+    font-size: 12px; padding: 6px 0; border-radius: 50%;
+    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto;
+  }
+  .cal-date.booked { background: var(--brand); color: white; font-weight: 600; }
+  .cal-date.available { background: #dcfce7; color: #166534; }
+  .cal-date.blocked { color: var(--grey-300); text-decoration: line-through; }
+
+  /* === PAYMENT METHODS === */
+  .pay-methods { display: flex; gap: 8px; padding: 0 16px 12px; }
+  .pay-method {
+    flex: 1; padding: 10px; border: 1px solid var(--grey-200); border-radius: var(--radius-sm);
+    text-align: center; font-size: 11px; color: var(--grey-600);
+  }
+  .pay-method.active { border-color: var(--brand); background: rgba(233,69,96,0.05); color: var(--brand); }
+  .pay-method svg { display: block; margin: 0 auto 4px; width: 20px; height: 20px; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>The Content Room</h1>
+  <p>Mobile-First Web App — Mid-Fi Wireframes</p>
+  <div class="badge">MVP · MARCH 2026</div>
+</div>
+
+<!-- Feature coverage bar -->
+<div class="feature-bar">
+  <span class="feature-tag covered">Location Discovery</span>
+  <span class="feature-tag covered">Search & Filters</span>
+  <span class="feature-tag covered">Map Search</span>
+  <span class="feature-tag covered">Detail Pages</span>
+  <span class="feature-tag covered">Booking Flow</span>
+  <span class="feature-tag covered">Messaging</span>
+  <span class="feature-tag covered">User Accounts</span>
+  <span class="feature-tag covered">Creator Profiles</span>
+  <span class="feature-tag covered">Host Listings</span>
+  <span class="feature-tag covered">UAE Payments</span>
+  <span class="feature-tag covered">Reviews & Ratings</span>
+  <span class="feature-tag covered">Notifications</span>
+  <span class="feature-tag covered">Availability Calendar</span>
+  <span class="feature-tag covered">Host Dashboard</span>
+  <span class="feature-tag">Admin Dashboard</span>
+  <span class="feature-tag">Analytics</span>
+  <span class="feature-tag covered">Mobile Design</span>
+</div>
+
+<div class="screen-nav" id="screenNav">
+  <button class="active" data-screen="home">Home</button>
+  <button data-screen="search">Search</button>
+  <button data-screen="map">Map</button>
+  <button data-screen="listing">Listing</button>
+  <button data-screen="booking">Booking</button>
+  <button data-screen="favourites">Saved</button>
+  <button data-screen="messages">Messages</button>
+  <button data-screen="creator">Creator</button>
+  <button data-screen="host-dash">Host</button>
+  <button data-screen="profile">Profile</button>
+</div>
+
+<div class="phone-wrap">
+  <div class="phone">
+
+    <!-- ===== HOME SCREEN ===== -->
+    <div class="screen active" id="screen-home">
+      <div class="status-bar">
+        <span class="time">9:41</span>
+        <div class="status-icons">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg>
+        </div>
+      </div>
+      <div class="app-header">
+        <div class="logo">The Content <span>Room</span></div>
+        <div class="app-header-icons">
+          <div class="icon-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <div class="notif-dot"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="search-bar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>Search spaces in Dubai...</span>
+          <div class="filter-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg></div>
+        </div>
+
+        <div class="hero">
+          <h2>Book stunning spaces for your next shoot</h2>
+          <p>Villas, studios, rooftops and more — across Dubai</p>
+          <a class="cta" href="#">Explore Spaces</a>
+        </div>
+
+        <div class="section-title">
+          <h3>Categories</h3>
+        </div>
+        <div class="categories">
+          <div class="cat-pill active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>Villas</span>
+          </div>
+          <div class="cat-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>
+            <span>Studios</span>
+          </div>
+          <div class="cat-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+            <span>Podcast</span>
+          </div>
+          <div class="cat-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <span>Rooftops</span>
+          </div>
+          <div class="cat-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/></svg>
+            <span>Commercial</span>
+          </div>
+        </div>
+
+        <div class="section-title">
+          <h3>Last-Minute Deals</h3>
+          <a href="#">View All</a>
+        </div>
+        <div class="card-scroll">
+          <div class="property-card">
+            <div class="card-img img-placeholder">
+              <div class="badge-tag">-20%</div>
+              <div class="heart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+            </div>
+            <div class="card-body">
+              <h4>Marina Penthouse</h4>
+              <div class="location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Dubai Marina</div>
+              <div class="tags"><span class="tag">Villa</span><span class="tag">Sea View</span></div>
+              <div class="price">AED 350 <span>/ 3hrs</span></div>
+            </div>
+          </div>
+          <div class="property-card">
+            <div class="card-img img-placeholder">
+              <div class="heart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+            </div>
+            <div class="card-body">
+              <h4>JBR Beach Villa</h4>
+              <div class="location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Jumeirah</div>
+              <div class="tags"><span class="tag">Villa</span><span class="tag">Garden</span></div>
+              <div class="price">AED 500 <span>/ 3hrs</span></div>
+            </div>
+          </div>
+          <div class="property-card">
+            <div class="card-img img-placeholder">
+              <div class="badge-tag">NEW</div>
+              <div class="heart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+            </div>
+            <div class="card-body">
+              <h4>DIFC Studio Loft</h4>
+              <div class="location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> DIFC</div>
+              <div class="tags"><span class="tag">Studio</span><span class="tag">Minimal</span></div>
+              <div class="price">AED 275 <span>/ 3hrs</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">
+          <h3>Featured Spaces</h3>
+          <a href="#">View All</a>
+        </div>
+        <div class="card-scroll">
+          <div class="property-card">
+            <div class="card-img img-placeholder">
+              <div class="heart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+            </div>
+            <div class="card-body">
+              <h4>Downtown Rooftop</h4>
+              <div class="location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Downtown Dubai</div>
+              <div class="tags"><span class="tag">Rooftop</span><span class="tag">Skyline View</span></div>
+              <div class="price">AED 600 <span>/ 3hrs</span></div>
+            </div>
+          </div>
+          <div class="property-card">
+            <div class="card-img img-placeholder">
+              <div class="heart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+            </div>
+            <div class="card-body">
+              <h4>Al Quoz Podcast Suite</h4>
+              <div class="location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Al Quoz</div>
+              <div class="tags"><span class="tag">Podcast</span><span class="tag">Soundproofed</span></div>
+              <div class="price">AED 400 <span>/ 3hrs</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <a class="nav-item active" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</a>
+        <a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Search</a>
+        <a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Saved</a>
+        <a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages</a>
+        <a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</a>
+      </div>
+    </div>
+
+    <!-- ===== SEARCH SCREEN ===== -->
+    <div class="screen" id="screen-search">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg></div></div>
+      <div class="screen-label">Search & Filter</div>
+      <div class="content">
+        <div class="search-bar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>Dubai Marina</span>
+          <div class="filter-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg></div>
+        </div>
+
+        <div class="filter-bar">
+          <span class="chip active">All</span>
+          <span class="chip">Villas</span>
+          <span class="chip">Studios</span>
+          <span class="chip">Podcast</span>
+          <span class="chip">Rooftops</span>
+        </div>
+        <div class="filter-bar" style="border-bottom:none;padding-top:4px;">
+          <span class="chip">Under 300</span>
+          <span class="chip active">300–600</span>
+          <span class="chip">600+</span>
+          <span class="chip">Parking</span>
+          <span class="chip">Pool</span>
+        </div>
+
+        <!-- Toggle to map -->
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 16px;">
+          <span style="font-size:13px;color:var(--grey-500);">14 spaces found</span>
+          <span style="font-size:12px;color:var(--brand);font-weight:600;display:flex;align-items:center;gap:4px;cursor:pointer;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Map View
+          </span>
+        </div>
+
+        <div class="v-card">
+          <div class="v-card-img img-placeholder"></div>
+          <div class="v-card-body">
+            <div><h4>Marina Penthouse</h4><div class="meta">Villa · Dubai Marina</div></div>
+            <div class="rating"><span class="star">★★★★★</span> 4.9 (23)</div>
+            <div style="font-size:14px;font-weight:700;color:var(--navy);">AED 350 <span style="font-size:12px;font-weight:400;color:var(--grey-500);">/ 3hrs</span></div>
+          </div>
+        </div>
+        <div class="v-card">
+          <div class="v-card-img img-placeholder"></div>
+          <div class="v-card-body">
+            <div><h4>JBR Beach Villa</h4><div class="meta">Villa · Jumeirah</div></div>
+            <div class="rating"><span class="star">★★★★</span><span>★</span> 4.7 (15)</div>
+            <div style="font-size:14px;font-weight:700;color:var(--navy);">AED 500 <span style="font-size:12px;font-weight:400;color:var(--grey-500);">/ 3hrs</span></div>
+          </div>
+        </div>
+        <div class="v-card">
+          <div class="v-card-img img-placeholder"></div>
+          <div class="v-card-body">
+            <div><h4>Business Bay Loft</h4><div class="meta">Studio · Business Bay</div></div>
+            <div class="rating"><span class="star">★★★★★</span> 5.0 (8)</div>
+            <div style="font-size:14px;font-weight:700;color:var(--navy);">AED 400 <span style="font-size:12px;font-weight:400;color:var(--grey-500);">/ 3hrs</span></div>
+          </div>
+        </div>
+        <div class="v-card">
+          <div class="v-card-img img-placeholder"></div>
+          <div class="v-card-body">
+            <div><h4>Downtown Studio Flat</h4><div class="meta">Studio · Downtown</div></div>
+            <div class="rating"><span class="star">★★★★</span><span>★</span> 4.6 (31)</div>
+            <div style="font-size:14px;font-weight:700;color:var(--navy);">AED 300 <span style="font-size:12px;font-weight:400;color:var(--grey-500);">/ 3hrs</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-nav"><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</a><a class="nav-item active" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2"/></svg>Search</a><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Saved</a><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages</a><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</a></div>
+    </div>
+
+    <!-- ===== MAP SCREEN ===== -->
+    <div class="screen" id="screen-map">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg></div></div>
+      <div class="content">
+        <div class="search-bar" style="margin-top:0;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>Search Dubai...</span>
+          <div style="font-size:12px;color:var(--brand);font-weight:600;white-space:nowrap;cursor:pointer;">List View</div>
+        </div>
+
+        <div class="map-container">
+          <!-- Map pins for Dubai areas -->
+          <div class="map-pin active" style="top:30%;left:25%;">
+            <svg viewBox="0 0 32 40"><path d="M16 0C7.2 0 0 7.2 0 16c0 12 16 24 16 24s16-12 16-24C32 7.2 24.8 0 16 0z"/></svg>
+            <span class="pin-label">350</span>
+          </div>
+          <div class="map-pin" style="top:45%;left:42%;">
+            <svg viewBox="0 0 32 40"><path d="M16 0C7.2 0 0 7.2 0 16c0 12 16 24 16 24s16-12 16-24C32 7.2 24.8 0 16 0z"/></svg>
+            <span class="pin-label">500</span>
+          </div>
+          <div class="map-pin" style="top:55%;left:60%;">
+            <svg viewBox="0 0 32 40"><path d="M16 0C7.2 0 0 7.2 0 16c0 12 16 24 16 24s16-12 16-24C32 7.2 24.8 0 16 0z"/></svg>
+            <span class="pin-label">600</span>
+          </div>
+          <div class="map-pin" style="top:25%;left:65%;">
+            <svg viewBox="0 0 32 40"><path d="M16 0C7.2 0 0 7.2 0 16c0 12 16 24 16 24s16-12 16-24C32 7.2 24.8 0 16 0z"/></svg>
+            <span class="pin-label">275</span>
+          </div>
+          <div class="map-pin" style="top:65%;left:35%;">
+            <svg viewBox="0 0 32 40"><path d="M16 0C7.2 0 0 7.2 0 16c0 12 16 24 16 24s16-12 16-24C32 7.2 24.8 0 16 0z"/></svg>
+            <span class="pin-label">400</span>
+          </div>
+          <div class="map-recenter">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+          </div>
+        </div>
+
+        <!-- Selected pin card -->
+        <div style="padding:12px 16px;">
+          <div style="display:flex;gap:12px;padding:12px;background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-md);align-items:center;">
+            <div style="width:70px;height:60px;border-radius:8px;flex-shrink:0;" class="img-placeholder"></div>
+            <div style="flex:1;">
+              <h4 style="font-size:14px;font-weight:600;margin-bottom:2px;">Marina Penthouse</h4>
+              <div style="font-size:12px;color:var(--grey-500);margin-bottom:2px;">Villa · Dubai Marina</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:12px;color:#f59e0b;">★★★★★ <span style="color:var(--grey-500);">4.9</span></span>
+                <span style="font-size:14px;font-weight:700;color:var(--navy);">AED 350</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nearby list -->
+        <div class="section-title"><h3>Nearby</h3></div>
+        <div class="v-card">
+          <div class="v-card-img img-placeholder"></div>
+          <div class="v-card-body">
+            <div><h4>JBR Beach Villa</h4><div class="meta">Villa · 1.2 km away</div></div>
+            <div class="rating"><span class="star">★★★★★</span> 4.7</div>
+            <div style="font-size:14px;font-weight:700;color:var(--navy);">AED 500</div>
+          </div>
+        </div>
+        <div class="v-card">
+          <div class="v-card-img img-placeholder"></div>
+          <div class="v-card-body">
+            <div><h4>Marina Studio</h4><div class="meta">Studio · 0.8 km away</div></div>
+            <div class="rating"><span class="star">★★★★★</span> 4.8</div>
+            <div style="font-size:14px;font-weight:700;color:var(--navy);">AED 275</div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-nav"><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</a><a class="nav-item active" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2"/></svg>Search</a><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Saved</a><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages</a><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</a></div>
+    </div>
+
+    <!-- ===== LISTING DETAIL ===== -->
+    <div class="screen" id="screen-listing">
+      <div class="status-bar" style="position:absolute;z-index:5;width:100%;"><span class="time" style="color:white;">9:41</span><div class="status-icons"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg></div></div>
+      <div class="content">
+        <div class="detail-hero img-placeholder">
+          <div class="back-btn"><svg viewBox="0 0 24 24" fill="none" stroke="var(--grey-700)" stroke-width="2" width="16" height="16"><polyline points="15 18 9 12 15 6"/></svg></div>
+          <div class="img-count">1 / 12</div>
+        </div>
+        <div class="detail-info">
+          <h2>Marina Penthouse</h2>
+          <div class="host">Hosted by Fatima K.</div>
+          <div class="detail-rating">
+            <span class="stars">★★★★★</span>
+            <span>4.9 (23 reviews)</span>
+          </div>
+          <p style="font-size:13px;color:var(--grey-600);margin-bottom:16px;">Bright, open-plan penthouse with floor-to-ceiling windows overlooking Dubai Marina. Natural light all day, perfect for fashion shoots, product photography, and video content.</p>
+
+          <div style="font-size:11px;font-weight:600;color:var(--grey-500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Amenities</div>
+          <div class="amenity-grid">
+            <div class="amenity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/></svg>Natural Light</div>
+            <div class="amenity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><circle cx="12" cy="20" r="1"/></svg>Fast Wi-Fi</div>
+            <div class="amenity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="23 7 16 12 16 2 23 7"/></svg>Backdrop</div>
+            <div class="amenity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>Refreshments</div>
+            <div class="amenity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>Parking</div>
+            <div class="amenity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 16 12 14 15 10 9 8 12 2 12"/></svg>Lift Access</div>
+          </div>
+
+          <div style="font-size:11px;font-weight:600;color:var(--grey-500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Availability</div>
+          <div style="display:flex;gap:6px;margin-bottom:16px;">
+            <span class="chip active" style="font-size:11px;">Sun</span>
+            <span class="chip active" style="font-size:11px;">Mon</span>
+            <span class="chip active" style="font-size:11px;">Tue</span>
+            <span class="chip active" style="font-size:11px;">Wed</span>
+            <span class="chip active" style="font-size:11px;">Thu</span>
+            <span class="chip" style="font-size:11px;">Fri</span>
+            <span class="chip" style="font-size:11px;">Sat</span>
+          </div>
+
+          <!-- Reviews section -->
+          <div style="font-size:11px;font-weight:600;color:var(--grey-500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Reviews</div>
+          <div class="review-item" style="padding:0 0 12px;border-bottom:1px solid var(--grey-100);margin-bottom:12px;">
+            <div class="review-header">
+              <div class="review-avatar">NK</div>
+              <div>
+                <div class="review-name">Noura K.</div>
+                <div class="review-date">2 weeks ago</div>
+              </div>
+            </div>
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">Amazing space with incredible natural light. Fatima was very accommodating and the penthouse was exactly as described. Will definitely book again!</div>
+          </div>
+          <div class="review-item" style="padding:0 0 12px;">
+            <div class="review-header">
+              <div class="review-avatar">AM</div>
+              <div>
+                <div class="review-name">Ahmed M.</div>
+                <div class="review-date">1 month ago</div>
+              </div>
+            </div>
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">Used this for a product shoot. The marina views made incredible backdrops. Highly recommend for content creators.</div>
+          </div>
+          <div style="text-align:center;padding:8px 0 16px;">
+            <a href="#" style="font-size:13px;color:var(--brand);font-weight:500;text-decoration:none;">See all 23 reviews</a>
+          </div>
+        </div>
+      </div>
+      <div class="book-bar">
+        <div class="price-display">AED 350 <span>/ 3hrs</span></div>
+        <button class="book-btn">Book Now</button>
+      </div>
+    </div>
+
+    <!-- ===== BOOKING SCREEN ===== -->
+    <div class="screen" id="screen-booking">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg></div></div>
+      <div class="screen-label">Book a Space</div>
+      <div class="content">
+        <div style="padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--grey-100);">
+          <div style="width:48px;height:48px;border-radius:8px;background:var(--grey-200);flex-shrink:0;" class="img-placeholder"></div>
+          <div><div style="font-size:14px;font-weight:600;">Marina Penthouse</div><div style="font-size:12px;color:var(--grey-500);">Hosted by Fatima K.</div></div>
+        </div>
+
+        <div class="date-selector">
+          <label>Select Date</label>
+          <div class="date-row">
+            <div class="date-box">Sun<br><strong>9</strong></div>
+            <div class="date-box active">Mon<br><strong>10</strong></div>
+            <div class="date-box">Tue<br><strong>11</strong></div>
+            <div class="date-box">Wed<br><strong>12</strong></div>
+            <div class="date-box">Thu<br><strong>13</strong></div>
+          </div>
+        </div>
+
+        <div class="time-slots">
+          <label>Available Time Slots (3 hours)</label>
+          <div class="slot-grid">
+            <div class="slot">9:00 AM</div>
+            <div class="slot active">12:00 PM</div>
+            <div class="slot">3:00 PM</div>
+            <div class="slot disabled">6:00 PM</div>
+          </div>
+        </div>
+
+        <!-- Payment method -->
+        <div style="padding:8px 16px 0;"><label style="font-size:11px;color:var(--grey-500);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Payment Method</label></div>
+        <div class="pay-methods">
+          <div class="pay-method active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Card
+          </div>
+          <div class="pay-method">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+            Apple Pay
+          </div>
+        </div>
+
+        <div class="summary-box">
+          <div class="summary-row"><span>Marina Penthouse (3hrs)</span><span>AED 350.00</span></div>
+          <div class="summary-row"><span>Service fee</span><span>AED 35.00</span></div>
+          <div class="summary-row total"><span>Total</span><span>AED 385.00</span></div>
+        </div>
+
+        <button class="full-btn">Confirm & Pay</button>
+      </div>
+    </div>
+
+    <!-- ===== FAVOURITES ===== -->
+    <div class="screen" id="screen-favourites">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg></div></div>
+      <div class="app-header"><div class="logo">Saved <span>Spaces</span></div></div>
+      <div class="content">
+        <div style="padding:0 16px 8px;font-size:13px;color:var(--grey-500);">3 saved spaces</div>
+        <div class="v-card">
+          <div class="v-card-img img-placeholder"></div>
+          <div class="v-card-body">
+            <div><h4>Marina Penthouse</h4><div class="meta">Villa · Dubai Marina</div></div>
+            <div class="rating"><span class="star">★★★★★</span> 4.9</div>
+            <div style="font-size:14px;font-weight:700;color:var(--navy);">AED 350 <span style="font-size:12px;font-weight:400;color:var(--grey-500);">/ 3hrs</span></div>
+          </div>
+        </div>
+        <div class="v-card">
+          <div class="v-card-img img-placeholder"></div>
+          <div class="v-card-body">
+            <div><h4>Downtown Rooftop</h4><div class="meta">Rooftop · Downtown</div></div>
+            <div class="rating"><span class="star">★★★★★</span> 5.0</div>
+            <div style="font-size:14px;font-weight:700;color:var(--navy);">AED 600 <span style="font-size:12px;font-weight:400;color:var(--grey-500);">/ 3hrs</span></div>
+          </div>
+        </div>
+        <div class="v-card">
+          <div class="v-card-img img-placeholder"></div>
+          <div class="v-card-body">
+            <div><h4>Al Quoz Podcast Suite</h4><div class="meta">Podcast · Al Quoz</div></div>
+            <div class="rating"><span class="star">★★★★</span><span>★</span> 4.8</div>
+            <div style="font-size:14px;font-weight:700;color:var(--navy);">AED 400 <span style="font-size:12px;font-weight:400;color:var(--grey-500);">/ 3hrs</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-nav"><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</a><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Search</a><a class="nav-item active" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Saved</a><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages</a><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</a></div>
+    </div>
+
+    <!-- ===== MESSAGES ===== -->
+    <div class="screen" id="screen-messages">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg></div></div>
+      <div class="app-header"><div class="logo">Messages</div></div>
+      <div class="content">
+        <div class="msg-item">
+          <div class="msg-avatar">FK</div>
+          <div class="msg-body"><h4>Fatima K.</h4><p>Great! The penthouse will be all set up for your shoot on Monday. I'll leave the...</p></div>
+          <div style="text-align:right"><div class="msg-time">2m ago</div><div class="msg-dot" style="margin-left:auto;margin-top:6px;"></div></div>
+        </div>
+        <div class="msg-item">
+          <div class="msg-avatar">RA</div>
+          <div class="msg-body"><h4>Rashid A.</h4><p>The rooftop is available all week. Sunset sessions are popular so book early!</p></div>
+          <div style="text-align:right"><div class="msg-time">1h ago</div><div class="msg-dot" style="margin-left:auto;margin-top:6px;"></div></div>
+        </div>
+        <div class="msg-item">
+          <div class="msg-avatar">TC</div>
+          <div class="msg-body"><h4>The Content Room</h4><p>Your booking at JBR Beach Villa has been confirmed! Here are the details...</p></div>
+          <div><div class="msg-time">Yesterday</div></div>
+        </div>
+        <div class="msg-item">
+          <div class="msg-avatar">SH</div>
+          <div class="msg-body"><h4>Sara H.</h4><p>Thanks for the lovely review! Hope to host you again soon.</p></div>
+          <div><div class="msg-time">2 days</div></div>
+        </div>
+      </div>
+      <div class="bottom-nav"><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</a><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Search</a><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Saved</a><a class="nav-item active" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages</a><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</a></div>
+    </div>
+
+    <!-- ===== CREATOR PROFILE ===== -->
+    <div class="screen" id="screen-creator">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg></div></div>
+      <div class="content">
+        <div class="creator-cover"></div>
+        <div class="creator-avatar-wrap">LR</div>
+        <div class="creator-info">
+          <h3>Layla Rahman</h3>
+          <div class="role">Content Creator · Dubai</div>
+          <div class="bio">Fashion and lifestyle content creator based in Dubai. Specialising in high-end product photography and social media campaigns for luxury brands.</div>
+        </div>
+        <div class="creator-stats">
+          <div class="creator-stat"><div class="num">47</div><div class="lbl">Bookings</div></div>
+          <div class="creator-stat"><div class="num">4.9</div><div class="lbl">Rating</div></div>
+          <div class="creator-stat"><div class="num">12</div><div class="lbl">Reviews</div></div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="section-title"><h3>Portfolio</h3></div>
+        <div class="portfolio-grid">
+          <div class="portfolio-item"></div>
+          <div class="portfolio-item"></div>
+          <div class="portfolio-item"></div>
+          <div class="portfolio-item"></div>
+          <div class="portfolio-item"></div>
+          <div class="portfolio-item"></div>
+          <div class="portfolio-item"></div>
+          <div class="portfolio-item"></div>
+          <div class="portfolio-item"></div>
+        </div>
+
+        <!-- Creator reviews -->
+        <div class="divider"></div>
+        <div class="section-title"><h3>Reviews</h3></div>
+        <div class="review-item">
+          <div class="review-header">
+            <div class="review-avatar">FK</div>
+            <div>
+              <div class="review-name">Fatima K.</div>
+              <div class="review-date">Host · 3 weeks ago</div>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">Layla was a wonderful guest. Left the space spotless and was very professional. Would happily host again.</div>
+        </div>
+        <div class="review-item">
+          <div class="review-header">
+            <div class="review-avatar">RA</div>
+            <div>
+              <div class="review-name">Rashid A.</div>
+              <div class="review-date">Host · 1 month ago</div>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">Great communicator and very respectful of the property. Arrived on time and kept to her booking window.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== HOST DASHBOARD ===== -->
+    <div class="screen" id="screen-host-dash">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg></div></div>
+      <div class="app-header">
+        <div class="logo">Host <span>Dashboard</span></div>
+        <div class="app-header-icons">
+          <div class="icon-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <div class="notif-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <!-- Stats -->
+        <div class="dash-stat-row">
+          <div class="dash-stat">
+            <div class="value">12</div>
+            <div class="label">Total Bookings</div>
+          </div>
+          <div class="dash-stat">
+            <div class="value" style="color:var(--success);">AED 4,200</div>
+            <div class="label">This Month</div>
+          </div>
+        </div>
+        <div class="dash-stat-row" style="padding-top:0;">
+          <div class="dash-stat">
+            <div class="value">3</div>
+            <div class="label">Active Listings</div>
+          </div>
+          <div class="dash-stat">
+            <div class="value">4.9</div>
+            <div class="label">Avg Rating</div>
+          </div>
+        </div>
+
+        <!-- Availability calendar -->
+        <div class="mini-cal">
+          <div class="mini-cal-header">
+            <h4>March 2026</h4>
+            <span>Edit Availability</span>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-day">S</div><div class="cal-day">M</div><div class="cal-day">T</div><div class="cal-day">W</div><div class="cal-day">T</div><div class="cal-day">F</div><div class="cal-day">S</div>
+            <div class="cal-date">1</div><div class="cal-date available">2</div><div class="cal-date available">3</div><div class="cal-date available">4</div><div class="cal-date booked">5</div><div class="cal-date blocked">6</div><div class="cal-date blocked">7</div>
+            <div class="cal-date available">8</div><div class="cal-date booked">9</div><div class="cal-date booked">10</div><div class="cal-date available">11</div><div class="cal-date available">12</div><div class="cal-date blocked">13</div><div class="cal-date blocked">14</div>
+            <div class="cal-date available">15</div><div class="cal-date available">16</div><div class="cal-date available">17</div><div class="cal-date">18</div><div class="cal-date">19</div><div class="cal-date">20</div><div class="cal-date">21</div>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:10px;font-size:10px;color:var(--grey-500);">
+            <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:var(--brand);"></span> Booked</span>
+            <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#dcfce7;"></span> Available</span>
+            <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:var(--grey-200);text-decoration:line-through;"></span> Blocked</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Pending bookings -->
+        <div class="section-title"><h3>Pending Requests</h3><span class="status-pill pending">2 new</span></div>
+        <div class="dash-booking">
+          <div class="dash-booking-avatar">LR</div>
+          <div class="dash-booking-info">
+            <h4>Layla R. — Marina Penthouse</h4>
+            <div class="meta">Mon 10 Mar · 12:00 PM · 3hrs</div>
+          </div>
+          <div class="dash-actions">
+            <button class="btn-approve">Accept</button>
+            <button class="btn-decline">Decline</button>
+          </div>
+        </div>
+        <div class="dash-booking">
+          <div class="dash-booking-avatar">OB</div>
+          <div class="dash-booking-info">
+            <h4>Omar B. — Marina Penthouse</h4>
+            <div class="meta">Wed 12 Mar · 9:00 AM · 3hrs</div>
+          </div>
+          <div class="dash-actions">
+            <button class="btn-approve">Accept</button>
+            <button class="btn-decline">Decline</button>
+          </div>
+        </div>
+
+        <div class="divider" style="margin-top:8px;"></div>
+
+        <!-- My listings -->
+        <div class="section-title"><h3>My Listings</h3><a href="#">+ Add New</a></div>
+        <div class="v-card">
+          <div class="v-card-img img-placeholder"></div>
+          <div class="v-card-body">
+            <div><h4>Marina Penthouse</h4><div class="meta"><span class="status-pill confirmed">Live</span> · 23 reviews</div></div>
+            <div style="font-size:14px;font-weight:700;color:var(--navy);">AED 350 <span style="font-size:12px;font-weight:400;color:var(--grey-500);">/ 3hrs</span></div>
+          </div>
+        </div>
+        <div class="v-card">
+          <div class="v-card-img img-placeholder"></div>
+          <div class="v-card-body">
+            <div><h4>JBR Garden Villa</h4><div class="meta"><span class="status-pill confirmed">Live</span> · 8 reviews</div></div>
+            <div style="font-size:14px;font-weight:700;color:var(--navy);">AED 500 <span style="font-size:12px;font-weight:400;color:var(--grey-500);">/ 3hrs</span></div>
+          </div>
+        </div>
+        <div class="v-card">
+          <div class="v-card-img img-placeholder"></div>
+          <div class="v-card-body">
+            <div><h4>Palm Studio</h4><div class="meta"><span class="status-pill pending">Draft</span></div></div>
+            <div style="font-size:14px;font-weight:700;color:var(--navy);">AED 450 <span style="font-size:12px;font-weight:400;color:var(--grey-500);">/ 3hrs</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PROFILE ===== -->
+    <div class="screen" id="screen-profile">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg></div></div>
+      <div class="content">
+        <div class="profile-header">
+          <div class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+          <h3>Layla Rahman</h3>
+          <p>Content Creator · Dubai</p>
+          <div style="display:flex;gap:16px;justify-content:center;margin-top:12px;">
+            <div style="text-align:center"><div style="font-size:18px;font-weight:700;color:var(--navy);">47</div><div style="font-size:11px;color:var(--grey-500);">Bookings</div></div>
+            <div style="text-align:center"><div style="font-size:18px;font-weight:700;color:var(--navy);">4.9</div><div style="font-size:11px;color:var(--grey-500);">Rating</div></div>
+            <div style="text-align:center"><div style="font-size:18px;font-weight:700;color:var(--navy);">3</div><div style="font-size:11px;color:var(--grey-500);">Listings</div></div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="menu-list">
+          <div class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Upcoming Bookings
+            <span class="badge-count">2</span>
+          </div>
+          <div class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Booking History
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+          <div class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            My Listings
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+          <div class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Creator Profile
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+          <div class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Messages
+            <span class="badge-count">2</span>
+          </div>
+          <div class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Reviews
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+          <div class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Payment Methods
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+          <div class="menu-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Account Settings
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+          <div class="menu-item" style="color:var(--brand);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Log Out
+          </div>
+        </div>
+      </div>
+      <div class="bottom-nav"><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</a><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Search</a><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Saved</a><a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages</a><a class="nav-item active" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</a></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const nav = document.getElementById('screenNav');
+  const buttons = nav.querySelectorAll('button');
+  const screens = document.querySelectorAll('.screen');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.screen;
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      screens.forEach(s => s.classList.remove('active'));
+      document.getElementById('screen-' + target).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
